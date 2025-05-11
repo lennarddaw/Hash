@@ -1,11 +1,19 @@
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../assets/colors.dart';
+import '../services/text_to_icon.dart';
 
 class _BarChart extends StatelessWidget {
-  const _BarChart();
+  final List<String> topPackages;
+  late final List<Widget> icons;
+
+  _BarChart({required this.topPackages, super.key}) {
+    icons = topPackages
+        .take(7)
+        .map((pkg) => iconForPackage(pkg))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +25,7 @@ class _BarChart extends StatelessWidget {
         barGroups: barGroups,
         gridData: const FlGridData(show: false),
         alignment: BarChartAlignment.spaceAround,
-        maxY: 20,
+        maxY: 60,
       ),
     );
   }
@@ -35,7 +43,7 @@ class _BarChart extends StatelessWidget {
             int rodIndex,
           ) {
             return BarTooltipItem(
-              rod.toY.round().toString(),
+              '${rod.toY.round()} min',
               const TextStyle(
                 color: AppColors.cyan,
                 fontWeight: FontWeight.bold,
@@ -45,55 +53,24 @@ class _BarChart extends StatelessWidget {
         ),
       );
 
-Widget getTitles(double value, TitleMeta meta) {
-  const textStyle = TextStyle(
-    color: AppColors.teal,
-    fontWeight: FontWeight.bold,
-    fontSize: 14,
-  );
-  final axisSide = meta.axisSide;
-  String text;
-  switch (value.toInt()) {
-    case 0:
-      text = 'Mn';
-      break;
-    case 1:
-      text = 'Te';
-      break;
-    case 2:
-      text = 'Wd';
-      break;
-    case 3:
-      text = 'Tu';
-      break;
-    case 4:
-      text = 'Fr';
-      break;
-    case 5:
-      text = 'St';
-      break;
-    case 6:
-      text = 'Sn';
-      break;
-    default:
-      text = '';
-      break;
+  Widget getTitles(double value, TitleMeta meta) {
+    final axisSide = meta.axisSide;
+    int index = value.toInt();
+    if (index < 0 || index >= icons.length) return const SizedBox.shrink();
+
+    return SideTitleWidget(
+      axisSide: axisSide,
+      space: 4,
+      child: SizedBox(width: 24, height: 30, child: icons[index]),
+    );
   }
-
-  return SideTitleWidget(
-    axisSide: axisSide,
-    space: 4,
-    child: Text(text, style: textStyle),
-  );
-}
-
 
   FlTitlesData get titlesData => FlTitlesData(
         show: true,
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedSize: 36,
             getTitlesWidget: getTitles,
           ),
         ),
@@ -121,78 +98,30 @@ Widget getTitles(double value, TitleMeta meta) {
         end: Alignment.topCenter,
       );
 
-  List<BarChartGroupData> get barGroups => [
-        BarChartGroupData(
-          x: 0,
+  List<BarChartGroupData> get barGroups => List.generate(topPackages.length, (index) {
+        final usageDuration = _getMockUsage(topPackages[index]);
+        return BarChartGroupData(
+          x: index,
           barRods: [
             BarChartRodData(
-              toY: 8,
+              toY: usageDuration.inMinutes.toDouble(),
               gradient: _barsGradient,
             )
           ],
           showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-              toY: 10,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 2,
-          barRods: [
-            BarChartRodData(
-              toY: 14,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 3,
-          barRods: [
-            BarChartRodData(
-              toY: 15,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 4,
-          barRods: [
-            BarChartRodData(
-              toY: 13,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 5,
-          barRods: [
-            BarChartRodData(
-              toY: 10,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 6,
-          barRods: [
-            BarChartRodData(
-              toY: 16,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-      ];
+        );
+      });
+
+  // Mock-Methode, hier kannst du später dynamische Werte einsetzen
+  Duration _getMockUsage(String packageName) {
+    const defaultDuration = Duration(minutes: 10);
+    final mockMap = {
+      "com.instagram.android": Duration(minutes: 45),
+      "com.whatsapp": Duration(minutes: 30),
+      "com.snapchat.android": Duration(minutes: 25),
+    };
+    return mockMap[packageName] ?? defaultDuration;
+  }
 }
 
 class BarChartSample3 extends StatefulWidget {
@@ -205,9 +134,19 @@ class BarChartSample3 extends StatefulWidget {
 class BarChartSample3State extends State<BarChartSample3> {
   @override
   Widget build(BuildContext context) {
-    return const AspectRatio(
+    return AspectRatio(
       aspectRatio: 1.6,
-      child: _BarChart(),
+      child: _BarChart(
+        topPackages: const [
+          "com.instagram.android",
+          "com.whatsapp",
+          "com.snapchat.android",
+          "com.telegram.android",
+          "com.tiktok.android",
+          "com.spotify.music",
+          "com.youtube.android",
+        ],
+      ),
     );
   }
 }

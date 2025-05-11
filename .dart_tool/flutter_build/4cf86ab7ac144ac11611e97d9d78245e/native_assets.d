@@ -1,1 +1,0 @@
- C:\\Visual\ Studio\ Code\ Projekte\ -\ Kopie\\Flutter-Projects\\hash\\.dart_tool\\flutter_build\\4cf86ab7ac144ac11611e97d9d78245e\\native_assets.yaml: 
