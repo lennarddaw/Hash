@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +19,8 @@ class _HomePageState extends State<HomePage> {
   final double horizontalPadding = 40;
   final double verticalPadding = 25;
 
+  Timer? _trackingTimer;
+
   // list of smart devices
   List mySmartDevices = [
     ["Track Eyes", "lib/icons/view.png", true],
@@ -29,7 +33,15 @@ class _HomePageState extends State<HomePage> {
   @override
 void initState() {
   super.initState();
- // checkForegroundApp();
+  checkForegroundApp();
+  startTracking();
+}
+
+void startTracking() {
+  _trackingTimer?.cancel(); // falls schon läuft
+  _trackingTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+    checkForegroundApp();
+  });
 }
 
 void checkForegroundApp() async {
@@ -51,6 +63,12 @@ void openUsageAccessSettings() {
       mySmartDevices[index][2] = value;
     });
   }
+
+  @override
+void dispose() {
+  _trackingTimer?.cancel();
+  super.dispose();
+}
 
   @override
   Widget build(BuildContext context) {
