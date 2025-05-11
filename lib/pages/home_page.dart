@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hash/assets/colors.dart';
 import 'package:hash/pages/dashboard_page.dart';
+import 'package:hash/pages/token_page.dart';
 
 import '../services/usage_stats_service.dart';
 import '../util/smart_device_box.dart';
@@ -97,8 +98,19 @@ class _HomePageState extends State<HomePage> {
       return SlideTransition(position: animation.drive(tween), child: child);
     },
   ),
+);} else if (details.primaryVelocity != null && details.primaryVelocity! > 0) {
+  Navigator.of(context).push(
+  PageRouteBuilder(
+    transitionDuration: const Duration(milliseconds: 300),
+    pageBuilder: (_, __, ___) => const TokenPage(),
+    transitionsBuilder: (_, animation, __, child) {
+      const begin = Offset(-1.0, 0.0);
+      const end = Offset.zero;
+      final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: Curves.easeOut));
+      return SlideTransition(position: animation.drive(tween), child: child);
+    },
+  ),
 );
-
         }
       },
         child: SafeArea(
