@@ -20,6 +20,10 @@ class _HomePageState extends State<HomePage> {
   final double verticalPadding = 25;
 
   Timer? _trackingTimer;
+  Map<String, Duration> usageStats = {}; // z.B. {"Instagram": 3 Minuten}
+  String? currentApp;
+  DateTime? appStartTime;
+
 
   // list of smart devices
   List mySmartDevices = [
