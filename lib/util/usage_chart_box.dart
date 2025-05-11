@@ -25,6 +25,7 @@ class _BarChart extends StatelessWidget {
         barGroups: barGroups,
         gridData: const FlGridData(show: false),
         alignment: BarChartAlignment.spaceAround,
+        backgroundColor: AppColors.white,
         maxY: 60,
       ),
     );
@@ -89,10 +90,10 @@ class _BarChart extends StatelessWidget {
         show: false,
       );
 
-  LinearGradient get _barsGradient => const LinearGradient(
+  LinearGradient get _barsGradient => LinearGradient(
         colors: [
-          AppColors.teal,
-          AppColors.cyan,
+          AppColors.grey,
+          AppColors.grey,
         ],
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
@@ -106,6 +107,8 @@ class _BarChart extends StatelessWidget {
             BarChartRodData(
               toY: usageDuration.inMinutes.toDouble(),
               gradient: _barsGradient,
+              width: 20,
+              borderRadius: BorderRadius.circular(4),
             )
           ],
           showingTooltipIndicators: [0],
