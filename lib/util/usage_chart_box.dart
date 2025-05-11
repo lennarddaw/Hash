@@ -25,7 +25,6 @@ class _BarChart extends StatelessWidget {
         barGroups: barGroups,
         gridData: const FlGridData(show: false),
         alignment: BarChartAlignment.spaceAround,
-        backgroundColor: AppColors.white,
         maxY: 60,
       ),
     );
@@ -44,10 +43,10 @@ class _BarChart extends StatelessWidget {
             int rodIndex,
           ) {
             return BarTooltipItem(
-              '${rod.toY.round()} min',
-              const TextStyle(
-                color: AppColors.cyan,
-                fontWeight: FontWeight.bold,
+              '${rod.toY.round()}',
+                TextStyle(
+                color: AppColors.grey,
+                fontWeight: FontWeight.w300,
               ),
             );
           },
@@ -131,24 +130,40 @@ class BarChartSample3 extends StatefulWidget {
   const BarChartSample3({super.key});
 
   @override
-  State<StatefulWidget> createState() => BarChartSample3State();
+  State<BarChartSample3> createState() => _BarChartSample3State();
 }
 
-class BarChartSample3State extends State<BarChartSample3> {
+class _BarChartSample3State extends State<BarChartSample3> {
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.6,
-      child: _BarChart(
-        topPackages: const [
-          "com.instagram.android",
-          "com.whatsapp",
-          "com.snapchat.android",
-          "com.telegram.android",
-          "com.tiktok.android",
-          "com.spotify.music",
-          "com.youtube.android",
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12.withOpacity(0.05),
+            spreadRadius: 2,
+            blurRadius: 12,
+            offset: const Offset(0, 6),
+          ),
         ],
+      ),
+      child: AspectRatio(
+        aspectRatio: 1.6,
+        child: _BarChart(
+          topPackages: const [
+            "com.instagram.android",
+            "com.whatsapp",
+            "com.snapchat.android",
+            "com.telegram.android",
+            "com.tiktok.android",
+            "com.spotify.music",
+            "com.youtube.android",
+          ],
+        ),
       ),
     );
   }
