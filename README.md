@@ -1,16 +1,27 @@
-# hash
+# Hash
 
-A new Flutter project.
+**Hash** is a Flutter application designed to collect and analyze personal behavior data—such as eye‐tracking metrics, user interactions, screen time, and browser/app cookies—in order to provide comprehensive self‐monitoring insights.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Eye Tracking & Gaze Analysis**  
+  Leverages device camera to track eye movement, measure gaze patterns, and infer attention/fatigue levels.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **User Interaction Logging**  
+  Captures taps, swipes, scrolls, and other UI events within the app to understand usage patterns and engagement.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Screen Time Monitoring**  
+  Records total screen-on time (per app and overall) to help users visualize how long they spend on specific applications.
+
+- **Browser & App Cookie Collection**  
+  Retrieves cookies stored by installed browsers or supported apps (with user consent) to analyze browsing habits and session information.
+
+- **Dashboard & Insights**  
+  Provides a consolidated dashboard where users can review aggregated metrics, visualizations, and historical trends.
+
+- **Customizable Data Export**  
+  Allows users to export raw data or summarized reports (JSON/CSV) for further analysis or integration into external tools.
+
+---
